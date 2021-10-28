@@ -1,5 +1,7 @@
 package ServiciosMedicos.ServiciosMedicos.Reservacion;
 
+import ServiciosMedicos.ServiciosMedicos.Reportes.ContadorClientes;
+import ServiciosMedicos.ServiciosMedicos.Reportes.StatusReservas;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +51,21 @@ public class ReservacionControlador {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public boolean delete(@PathVariable("id") int reservationId) {
         return servicio.deleteReservation(reservationId);
+    }
+    
+    @GetMapping("/report-status")
+    public StatusReservas getReservationsStatusReport(){
+        return servicio.getReservationsStatusReport();
+    }
+    
+    @GetMapping("/report-dates/{dateOne}/{dateTwo}")
+    public List<Reservacion> getReservationsReportDates(@PathVariable("dateOne") String dateOne, @PathVariable("dateTwo") String dateTwo){
+    return servicio.getReservationPeriod(dateOne, dateTwo);
+    }
+    
+    @GetMapping("/report-clients")
+    public List<ContadorClientes> getReservationsReportsClient(){
+        return servicio.getTopClients();
     }
     
 }

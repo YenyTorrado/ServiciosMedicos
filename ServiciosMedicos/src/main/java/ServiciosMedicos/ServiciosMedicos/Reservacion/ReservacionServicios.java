@@ -1,5 +1,11 @@
 package ServiciosMedicos.ServiciosMedicos.Reservacion;
 
+import ServiciosMedicos.ServiciosMedicos.Reportes.ContadorClientes;
+import ServiciosMedicos.ServiciosMedicos.Reportes.StatusReservas;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,5 +94,46 @@ public class ReservacionServicios {
             return true;
         }).orElse(false);
         return aBoolean;
+    }
+    
+    /**
+     * status reservas
+     *
+     */
+    public StatusReservas getReservationsStatusReport(){
+        List<Reservacion>completed=metodosCrud.getReservationByStatus("completed");
+        List<Reservacion>cancelled=metodosCrud.getReservationByStatus("cancelled");
+    return new StatusReservas(completed.size(), cancelled.size());
+    }
+    
+    /**
+     * periodo de reservas
+     *
+     */
+    public List<Reservacion> getReservationPeriod(String dateA, String dateB){
+        SimpleDateFormat parser=new SimpleDateFormat("yyyy-MM-dd");
+        Date aDate= new Date();
+        Date bDate= new Date();
+        
+       try {
+           aDate = parser.parse(dateA);
+           bDate = parser.parse(dateB);
+       }catch(ParseException evt){
+           evt.printStackTrace();
+       }
+       if(aDate.before(bDate)){
+           return metodosCrud.getReservationPeriod(aDate, bDate);
+       }else{
+           return new ArrayList<>();
+       } 
+    
+    }
+    
+    /**
+     * Contador de reservas
+     *
+     */
+    public List<ContadorClientes> getTopClients(){
+        return metodosCrud.getTopClients();
     }
 }
