@@ -46,6 +46,9 @@ public class ClienteServicios {
                 if(client.getAge()!=null){
                     e.get().setAge(client.getAge());
                 }
+		if(client.getEmail()!=null){
+                    e.get().setEmail(client.getEmail());
+                }
                 if(client.getPassword()!=null){
                     e.get().setPassword(client.getPassword());
                 }

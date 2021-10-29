@@ -25,6 +25,7 @@ public class ReservacionServicios {
      *
      */
     private ReservacionRepositorio metodosCrud;
+
     /**
      * Get all
      *
@@ -32,13 +33,15 @@ public class ReservacionServicios {
     public List<Reservacion> getAll() {
         return metodosCrud.getAll();
     }
+
     /**
-     * Get 
+     * Get
      *
      */
     public Optional<Reservacion> getReservation(int reservationId) {
         return metodosCrud.getReservation(reservationId);
     }
+
     /**
      * Post
      *
@@ -56,7 +59,7 @@ public class ReservacionServicios {
         }
     }
 
-     /**
+    /**
      * Put
      *
      */
@@ -84,7 +87,7 @@ public class ReservacionServicios {
         }
     }
 
-     /**
+    /**
      * Delete
      *
      */
@@ -95,45 +98,44 @@ public class ReservacionServicios {
         }).orElse(false);
         return aBoolean;
     }
-    
+
     /**
      * status reservas
      *
      */
-    public StatusReservas getReservationsStatusReport(){
-        List<Reservacion>completed=metodosCrud.getReservationByStatus("completed");
-        List<Reservacion>cancelled=metodosCrud.getReservationByStatus("cancelled");
-    return new StatusReservas(completed.size(), cancelled.size());
+    public StatusReservas getReservationsStatusReport() {
+        List<Reservacion> completed = metodosCrud.getReservationByStatus("completed");
+        List<Reservacion> cancelled = metodosCrud.getReservationByStatus("cancelled");
+        return new StatusReservas(completed.size(), cancelled.size());
     }
-    
+
     /**
      * periodo de reservas
      *
      */
-    public List<Reservacion> getReservationPeriod(String dateA, String dateB){
-        SimpleDateFormat parser=new SimpleDateFormat("yyyy-MM-dd");
-        Date aDate= new Date();
-        Date bDate= new Date();
-        
-       try {
-           aDate = parser.parse(dateA);
-           bDate = parser.parse(dateB);
-       }catch(ParseException evt){
-           evt.printStackTrace();
-       }
-       if(aDate.before(bDate)){
-           return metodosCrud.getReservationPeriod(aDate, bDate);
-       }else{
-           return new ArrayList<>();
-       } 
-    
+    public List<Reservacion> getReservationPeriod(String dateA, String dateB) {
+        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
+        Date aDate = new Date();
+        Date bDate = new Date();
+
+        try {
+            aDate = parser.parse(dateA);
+            bDate = parser.parse(dateB);
+        } catch (ParseException evt) {
+            evt.printStackTrace();
+        }
+        if (aDate.before(bDate)) {
+            return metodosCrud.getReservationPeriod(aDate, bDate);
+        } else {
+            return new ArrayList<>();
+        }
     }
-    
+
     /**
      * Contador de reservas
      *
      */
-    public List<ContadorClientes> getTopClients(){
+    public List<ContadorClientes> getTopClients() {
         return metodosCrud.getTopClients();
     }
 }
